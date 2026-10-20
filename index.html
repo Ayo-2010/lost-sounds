@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lost Sounds — Hall of Vanishing Sound</title>
+<meta name="description" content="A small museum of disappearing sounds, synthesised live in your browser. Select a vitrine, listen, and keep a specimen in your collection.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,400&family=Italiana&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23090807'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23c9a44c' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%23c9a44c'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<a class="skip-link" href="#archive">Skip to the current exhibit</a>
+
+<header class="masthead">
+  <div class="seal" aria-hidden="true">
+    <svg viewBox="0 0 80 80" role="presentation">
+      <circle cx="40" cy="40" r="37" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      <circle cx="40" cy="40" r="31" fill="none" stroke="currentColor" stroke-width="0.5" stroke-dasharray="1 4"/>
+      <text x="40" y="47" text-anchor="middle" font-size="20" letter-spacing="2">LS</text>
+    </svg>
+  </div>
+  <div class="masthead-title">
+    <p class="kicker">The Lost Sounds Archive <span>·</span> Wing IV</p>
+    <h1>Hall of <em>Vanishing</em> Sound</h1>
+  </div>
+  <div class="masthead-meta">
+    <p>Six specimens, kept alive by synthesis</p>
+    <p class="masthead-hours">Open by appointment · since 1897</p>
+  </div>
+</header>
+
+<main>
+  <section class="intro" aria-label="About the collection">
+    <p class="lede">Some sounds leave no recording behind — only a description, a photograph of the room, a note in a curator's hand. This hall rebuilds them from the air up, one oscillator at a time. Choose a vitrine and listen to what is missing.</p>
+    <div class="gesture-note">
+      <span class="pulse-dot" aria-hidden="true"></span>
+      <p><strong>Sound begins with your hand.</strong> Browsers keep audio silent until a visitor acts. Select a specimen, then press <em>Strike the vitrine</em> — the room stays quiet until you do.</p>
+    </div>
+  </section>
+
+  <div class="museum">
+    <section class="catalogue" aria-labelledby="catalogue-title">
+      <div class="catalogue-head">
+        <h2 id="catalogue-title">On view</h2>
+        <p class="counter"><span id="exhibit-count">6</span> specimens</p>
+      </div>
+      <div class="filters" role="group" aria-label="Filter the catalogue">
+        <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" class="filter" data-filter="kept" aria-pressed="false">Kept</button>
+      </div>
+      <ul class="exhibit-list" id="exhibit-list" aria-label="Sound specimens"></ul>
+      <p class="catalogue-empty" id="catalogue-empty" hidden>No specimens kept yet. Open a vitrine and press <em>Keep</em> to begin your collection.</p>
+      <div class="catalogue-foot">
+        <span class="rule"></span>
+        <p>All sounds are generated live. No audio files are stored or fetched.</p>
+      </div>
+    </section>
+
+    <section class="vitrine" id="archive" aria-labelledby="exhibit-title">
+      <div class="vitrine-frame">
+        <span class="corner corner-tl" aria-hidden="true"></span>
+        <span class="corner corner-tr" aria-hidden="true"></span>
+        <span class="corner corner-bl" aria-hidden="true"></span>
+        <span class="corner corner-br" aria-hidden="true"></span>
+
+        <div class="vitrine-head">
+          <p class="accession">Accession <span id="exhibit-no">LS–001</span></p>
+          <button type="button" class="favourite" id="favourite" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"/></svg>
+            <span id="favourite-label">Keep</span>
+          </button>
+        </div>
+
+        <div class="plaque" id="plaque">
+          <p class="plaque-kicker" id="exhibit-kicker">Specimen I · Field recording, reconstructed</p>
+          <h2 id="exhibit-title">Rain on a Tin Roof</h2>
+          <p class="plaque-sub" id="exhibit-sub">Stoke Newington, London · 1962</p>
+        </div>
+
+        <div class="scope-wrap">
+          <canvas id="scope" aria-hidden="true"></canvas>
+          <div class="scope-glass" aria-hidden="true"></div>
+          <div class="scope-labels">
+            <span class="scope-state" id="scope-state">Signal at rest</span>
+            <span id="scope-time">00:00 / 00:52</span>
+          </div>
+        </div>
+
+        <div class="transport">
+          <button type="button" class="play" id="play" aria-pressed="false">
+            <span class="play-mark" aria-hidden="true">
+              <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>
+              <svg class="icon-stop" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
+            </span>
+            <span class="play-text">
+              <span id="play-label">Strike the vitrine</span>
+              <small id="play-hint">Sound begins on your command</small>
+            </span>
+          </button>
+
+          <div class="volume">
+            <label for="volume">Room volume <span id="volume-value">70%</span></label>
+            <input type="range" id="volume" min="0" max="100" value="70" aria-describedby="volume-value">
+          </div>
+
+          <p class="duration"><span>Running time</span><strong id="duration">0:52</strong></p>
+        </div>
+
+        <div class="progress" id="progress" role="progressbar" aria-label="Playback progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+
+        <div class="note">
+          <p class="note-label">Curator's note</p>
+          <p id="exhibit-note">A galvanised roof, a slow front from the west, and the particular hollowness of a room with nothing left inside it.</p>
+        </div>
+
+        <dl class="meta">
+          <div><dt>Origin</dt><dd id="meta-origin">Stoke Newington, London</dd></div>
+          <div><dt>Recorded</dt><dd id="meta-recorded">1962, by a resident</dd></div>
+          <div><dt>Medium</dt><dd id="meta-medium">Water on galvanised steel</dd></div>
+          <div><dt>Condition</dt><dd id="meta-condition">Faint hiss. Do not restore.</dd></div>
+        </dl>
+      </div>
+      <p class="vitrine-caption"><span aria-hidden="true">◈</span> Specimen under glass. Please listen closely and handle nothing.</p>
+    </section>
+  </div>
+
+  <section class="museum-notes" aria-label="Notes from the archive">
+    <article class="archive-note">
+      <p class="note-label">On the collection</p>
+      <blockquote>“The archive does not preserve sound. It preserves the agreement between two people that something was once heard.”</blockquote>
+      <p class="note-source">M. Aldous, Keeper of Records, 1974</p>
+    </article>
+    <article class="archive-note archive-note-small">
+      <p class="note-label">Conservation</p>
+      <p>Each specimen is rebuilt from filtered noise, tuned partials and slow envelopes. Nothing is looped from a file, so no two listens are quite identical. Keep a specimen to add it to your private collection; your choices stay in this browser.</p>
+    </article>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>Hall of Vanishing Sound · Wing IV</p>
+  <p class="footer-mid">Synthesised live with the Web Audio API</p>
+  <p>Admission free</p>
+</footer>
+
+<p class="sr-only" id="live-region" role="status" aria-live="polite"></p>
+
+<script src="app.js"></script>
+</body>
+</html>
