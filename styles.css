@@ -941,3 +941,22 @@ input[type="range"]::-moz-range-thumb {
   }
   .pulse-dot { animation: none; box-shadow: 0 0 0 4px rgba(201, 164, 76, 0.2); }
 }
+
+@media print {
+  body * { visibility: hidden; }
+  .vitrine-frame, .vitrine-frame * { visibility: visible; }
+  .plaque, .plaque * { visibility: visible; }
+  .vitrine-frame, .plaque {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 20mm;
+    background: white;
+    box-shadow: none;
+    border: 2px solid var(--ink);
+    color: var(--ink);
+  }
+  .hall-header, .controls, .audio-visualizer, .favorites, .footer { display: none; }
+  .museum { border: none; box-shadow: none; }
+}
